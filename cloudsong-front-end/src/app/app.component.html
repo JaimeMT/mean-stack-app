@@ -1,0 +1,191 @@
+<div class="container-fluid body">
+  <div *ngIf="identity" class="col-1 navigation">
+    <h1 class="head-title">
+      <a [routerLink]="['/']">
+        <i class="fab fa-connectdevelop"></i>
+        {{ title }}
+      </a>
+    </h1>
+
+    <div id="navigation">
+      <a [routerLink]="['/search']" [routerLinkActive]="['active']"
+        ><i class="bi bi-search glyphicons"></i> Buscar</a
+      >
+      <a [routerLink]="['/artists', 1]" [routerLinkActive]="['active']"
+        ><i class="bi bi-star-fill glyphicons"></i> Artistas</a
+      >
+      <a
+        [routerLink]="['/crear-playlist', identity._id]"
+        [routerLinkActive]="['active']"
+        ><i class="fas fa-folder-plus glyphicons"></i>Crear playlist</a
+      >
+      <a
+        [routerLink]="['/mi-biblioteca', identity._id]"
+        [routerLinkActive]="['active']"
+        ><i class="bi bi-book glyphicons"></i>Mi biblioteca</a
+      >
+      <a
+        [routerLink]="['/mis-datos']"
+        [routerLinkActive]="['active']"
+        class="btn-logout datos"
+        ><i class="fa fa-cogs"></i>Mis datos</a
+      >
+    </div>
+
+    <div id="userLogged">
+      <div class="image">
+        <img
+          *ngIf="identity.image != 'null'"
+          class="imageUser"
+          src="{{ url + 'get-image-user/' + identity.image }}"
+          alt="User image"
+        />
+        <img class="imageUser" *ngIf="identity.image == 'null'" src="../assets/img/78-785827_user-profile-avatar-login-account-male-user-icon.png" alt="">
+      </div>
+      <span id="nameId"> {{ identity.name }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="identity" class="col-lg-12 col-sm-12 col-md-12 central">
+    <router-outlet></router-outlet>
+    <player-app></player-app>
+    
+  </div>
+  
+  <div class="col-lg-12 principal" *ngIf="!identity">
+    <h1 class="head-init">CloudSongs</h1>
+    <div class="form-wrap">
+      <div class="tabs">
+        <h3 class="signup-tab">
+          <a
+            class="not-active"
+            [routerLinkActive]="['active']"
+            [routerLink]="['/signup-tab-content']"
+            >Sign Up</a
+          >
+        </h3>
+        <h3 class="login-tab">
+          <a
+            class="not-active"
+            [routerLinkActive]="['active']"
+            [routerLink]="['/login-tab-content']"
+            >Login</a
+          >
+        </h3>
+      </div>
+      <!--.tabs-->
+
+      <div class="tabs-content">
+        <div *ngIf="alertRegister">
+          {{ alertRegister }}
+        </div>
+        <div
+          id="signup-tab-content"
+          *ngIf="_router.url === '/signup-tab-content'"
+        >
+          <form
+            class="signup-form"
+            [ng-form-model]="form" #registerForm="ngForm"
+            (ngSubmit)="onSubmitRegister()"
+          >
+
+            <input
+              type="email"
+              class="input"
+              id="user_email"
+              autocomplete="off"
+              placeholder="Email"
+              #email="ngModel"
+              name="email"
+              [(ngModel)]="userRegister.email"
+              id="inlineFormInputGroupUsername3"
+              required
+            />
+            
+            <input
+              type="text"
+              class="input"
+              id="name"
+              autocomplete="off"
+              placeholder="Username"
+              #name="ngModel"
+              name="name"
+              [(ngModel)]="userRegister.name"
+              id="inlineFormInputGroupUsername3"
+              required
+            />
+            <input
+              type="text"
+              class="input"
+              id="surname"
+              autocomplete="off"
+              placeholder="Surname"
+              #surname="ngModel"
+              name="surname"
+              [(ngModel)]="userRegister.surname"
+              id="inlineFormInputGroupUsername3"
+              required
+            />
+
+            <input
+              type="password"
+              #password="ngModel"
+              name="password"
+              [(ngModel)]="userRegister.password"
+              required
+              class="input"
+              id="user_pass"
+              autocomplete="off"
+              placeholder="Password"
+              id="inlineFormInputGroupUsername3"
+              required
+            />
+
+            <button type="submit" class="button" [disabled]="!registerForm.form.valid">Sign Up</button>
+          </form>
+          <!--.login-form-->
+          <div class="clearfix"></div>
+        </div>
+
+        <div
+          id="login-tab-content"
+          *ngIf="_router.url === '/login-tab-content'"
+        >
+          <div *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+          <form class="login-form" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+            <input
+              type="email"
+              class="input"
+              id="user_login"
+              autocomplete="off"
+              placeholder="Email"
+              #email="ngModel"
+              name="email"
+              [(ngModel)]="user.email"
+              id="inlineFormInputGroupUsername3"
+              required
+            />
+
+            <input
+              type="password"
+              class="input"
+              id="user_pass"
+              autocomplete="off"
+              placeholder="Password"
+              #password="ngModel"
+              name="password"
+              [(ngModel)]="user.password"
+              id="inlineFormInputGroupUsername3"
+              required
+            />
+
+            <input type="submit" class="button" value="Login" [disabled]="!loginForm.form.valid"/>
+          </form>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

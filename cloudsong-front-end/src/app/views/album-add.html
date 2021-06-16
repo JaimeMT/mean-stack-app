@@ -1,0 +1,103 @@
+<div *ngIf="identity && identity.role=='ROLE_ADMIN'" class="wrapper-add-album">
+  <div class="col-12 form-add-album">
+    <h1 style="color: white; text-align: center">Editar o Añadir Album</h1>
+    <form
+      #formAlbum="ngForm"
+      (ngSubmit)="onSubmit()"
+      class="
+        d-flex
+        justify-content-center
+        align-items-center
+        container
+        ng-untouched ng-pristine ng-valid
+      "
+    >
+      <div class="form-group">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Titulo</label>
+          <input
+            style="background-color: black; color: white"
+            type="text"
+            #title="ngModel"
+            name="title"
+            [(ngModel)]="album.title"
+            class="form-control"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+            required
+          />
+          <span *ngIf="!title.valid && title.touched" style="color: red;">
+            El titulo es obligatorio
+          </span>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label"
+            >Descripcion del artista</label
+          >
+          <textarea
+            style="background-color: black; color: white"
+            class="form-control"
+            #description="ngModel"
+            name="description"
+            [(ngModel)]="album.description"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+            required
+          ></textarea>
+          <span *ngIf="!description.valid && description.touched" style="color: red;">
+            La description es obligatoria
+          </span>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Año</label>
+          <input
+            style="background-color: black; color: white"
+            type="number"
+            #year="ngModel"
+            name="year"
+            [(ngModel)]="album.year"
+            class="form-control"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+            required
+          />
+          <span *ngIf="!year.valid && year.touched " style="color: red;">
+            El año es obligatorio
+          </span>
+        </div>
+        <div *ngIf="is_edit" class="mb-3">
+          <div *ngIf="album.image && album.image != 'null'">
+            <img
+              class="album-image-foredit"
+              src="{{url + 'get-image-album/' + album.image}}"
+              alt="Imagen del album"
+            />
+          </div>
+          <label class="form-label">Foto del Album</label>
+          <input
+            class="form-control-file file-options"
+            type="file"
+            #image="ngModel"
+            name="image"
+            [(ngModel)]="album.image"
+            (change)="fileChangeEvent($event)"
+          />
+          <span *ngIf="!image.valid && image.touched">
+            El nombre es obligatorio
+          </span>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary custom-btn"
+          style="display: block; width: 100%"
+          [disabled]="!formAlbum.form.valid"
+        >
+          Crear Album
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

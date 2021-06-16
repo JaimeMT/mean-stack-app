@@ -1,0 +1,95 @@
+<div class="player">
+  <div class="player-info">
+    <div class="reproductor" id="reproductor">
+      <div class="details">
+        <div *ngIf="song.album != ''">
+          <img
+            id="image-path"
+            class="track-art"
+            src="{{url + 'get-image-album/' + song.album.image}}"
+            alt=""
+          />
+        </div>
+        <div *ngIf="song.album == ''">
+          <img
+            id="image-path"
+            class="track-art"
+            src="../../assets/img/pngtree-nodes-icon-for-your-project-png-image_1557879.jpg"
+            alt=""
+          />
+        </div>
+        <div class="track-name" *ngIf="song.name != ''">
+          <span id="play-song-title" class="text-white"> {{song.name}} </span
+          ><br />
+          <span
+            class="artist-name-player"
+            id="play-song-artist"
+            (click)="redirect()"
+          >
+            {{song.album.artist.name}}
+          </span>
+        </div>
+        <div class="track-name" *ngIf="song.name == ''">
+          <span id="play-song-title" class="text-white"> CloudSongs </span
+          ><br />
+          <span class="artist-name-player" id="play-song-artist">
+            Welcome
+          </span>
+        </div>
+      </div>
+
+      <div class="menu-player">
+        <div class="buttons">
+          <div class="prev-track">
+            <i class="fa fa-step-backward" (click)="prevTrack()"></i>
+          </div>
+          <div class="playpause-track">
+            <i id="click-player" class="fas fa-play" (click)="playMusic()"></i>
+          </div>
+          <div class="next-track">
+            <i id="trigger" class="fa fa-step-forward" (click)="nextTrack()"></i>
+          </div>
+        </div>
+
+        <div class="slider_container_duration" id="duration">
+          <div class="current-time"><span id="current-time">0:00</span></div>
+          <div id="position-seek-slider" style="width: 100%">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              step="1"
+              class="seek_slider"
+              id="seek-slider"
+            />
+          </div>
+          <div class="total-duration">
+            <span id="duration-song">{{song.duration}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="slider_container" id="volume">
+        <i class="fa fa-volume-down"></i>
+        <input
+          (input)="changevolume($event)"
+          type="range"
+          max="1"
+          min="0"
+          value="{{volumen}}"
+          step="0.01"
+          class="volume_slider"
+          id="volume-control"
+        />
+        <i class="fa fa-volume-up"></i>
+      </div>
+        <audio
+        id="player"
+        src="{{url + 'get-file-song/'+song.file}}"
+        type="audio/mpeg"
+      ></audio>   
+    </div>
+  </div>
+</div>
+

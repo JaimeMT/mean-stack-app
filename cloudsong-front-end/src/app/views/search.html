@@ -1,0 +1,65 @@
+<div class="search">
+  <h1 class="search-title">Buscar</h1>
+  <div class="search-to-add-songs" id="search-to-start">
+    <div class="input-group mb-2 mr-sm-2">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><i class="bi bi-search"></i></div>
+      </div>
+      <input
+        (input)="getSongs($event)"
+        type="search"
+        class="form-control search-input"
+        id="inlineFormInputGroupUsername2"
+        placeholder="Busca canciones"
+        autofocus
+        name="filterPost"
+        [(ngModel)]="filterPost"
+        autocomplete="nope"
+        autocomplete="off"  
+      />
+    </div>
+  </div>
+  <div id="cancion-buscada">
+    <table class="table-of-songs">
+      <tbody>
+        <tr style="visibility: hidden">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr
+          *ngFor="let songSearch of songsSearch | filter:filterPost"
+          id="{{songSearch.name}}"
+          class="no-active"
+          style="cursor: pointer"
+        >
+          <td (click)="rememberSong(songSearch)">
+            <img
+              class="image-album-searched"
+              src="{{url + 'get-image-album/'+ songSearch.album.image}}"
+            />
+          </td>
+          <td (click)="rememberSong(songSearch)" id="artist-album-name">
+            <span class="name-song">{{songSearch.name}}</span><br />
+            <span 
+              class="table-artist-name"
+              [routerLink]="['/artist/'+songSearch.album.artist._id]"
+              >{{songSearch.album.artist.name}}</span
+            >
+          </td>
+          <td (click)="rememberSong(songSearch)">
+            <span [routerLink]="['/album/'+songSearch.album._id]">{{songSearch['album']['title']}}</span>
+          </td>
+          <td class="duration-table" (click)="rememberSong(songSearch)">
+            <span >{{songSearch.duration}} </span>
+          </td>
+          <td>
+            <span style="visibility: hidden;">p</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div *ngIf="identity" class="wrapper-add-album">
+  <div class="col-12 form-add-album">
+    <h1 style="color: white; text-align: center">Editar o Añadir Playlist</h1>
+    <form
+      #formPlaylist="ngForm"
+      (ngSubmit)="onSubmit()"
+      class="
+        d-flex
+        justify-content-center
+        align-items-center
+        container
+        ng-untouched ng-pristine ng-valid
+      "
+    >
+      <div class="form-group">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Titulo</label>
+          <input
+            type="text"
+            #title="ngModel"
+            name="title"
+            [(ngModel)]="playlist.title"
+            class="form-control"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+          />
+          <span *ngIf="!title.valid && title.touched" style="color: red;">
+            El titulo es obligatorio
+          </span>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label"
+            >Descripcion de la playlist</label
+          >
+          <textarea
+            class="form-control"
+            #description="ngModel"
+            name="description"
+            [(ngModel)]="playlist.description"
+            id="inlineFormInputGroupUsername3"
+            autocomplete="nope"
+            autocomplete="off"
+          ></textarea>
+          <span *ngIf="!description.valid && description.touched" style="color: red;">
+            La description es obligatoria
+          </span>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Año</label>
+          <input
+            type="number"
+            #year="ngModel"
+            name="year"
+            [(ngModel)]="playlist.year"
+            class="form-control"
+            id="inlineFormInputGroupUsername3"
+            autocomplete="nope"
+            autocomplete="off"
+          />
+          <span *ngIf="!year.valid && year.touched" style="color: red;">
+            El año es obligatorio
+          </span>
+        </div>
+        <div *ngIf="is_edit" class="mb-3">
+          <div *ngIf="playlist.image && playlist.image != 'null'">
+            <img
+              class="album-image-foredit"
+              src="{{url + 'get-image-playlist/' + playlist.image}}"
+              alt="Imagen de la playlist"
+            />
+          </div>
+          <label class="form-label">Foto de la playlist</label>
+          <input
+            class="form-control-file file-options"
+            type="file"
+            #image="ngModel"
+            name="image"
+            [(ngModel)]="playlist.image"
+            (change)="fileChangeEvent($event)"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+          />
+          <span *ngIf="!image.valid && image.touched" style="color: red;">
+            La imagen es obligatoria
+          </span>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary custom-btn"
+          style="display: block; width: 100%"
+          [disabled]="!formPlaylist.form.valid"
+        >
+          Crear Album
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

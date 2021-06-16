@@ -1,0 +1,115 @@
+<div class="container-artist-details">
+  <div *ngIf="artist" class="artist-name-box">
+    <img
+      class="artist-image"
+      src="{{url + 'get-image-artist/'+ artist.image}}"
+      alt="Image of artist"
+      *ngIf="artist.image != 'null'"
+    />
+
+      <h1 class="text-image">{{artist['name']}}</h1>
+
+  </div>
+  <div class="test-box-shadow">
+    <div class="title-album">
+      <h1>
+        Álbumes<i
+          *ngIf="identity.role =='ROLE_ADMIN'"
+          class="bi bi-plus-circle"
+          [routerLink]="['/add-album', artist._id]"
+        ></i>
+      </h1>
+    </div>
+    <div class="cards-albums" *ngIf="identity">
+      <div
+        class="card-album"
+        *ngFor="let album of albums"
+        [routerLink]="['/album', album._id]"
+        style="cursor: pointer"
+      >
+        <div class="overlayer-album">
+          <div >
+            <i *ngIf="identity.role == 'ROLE_ADMIN'"
+              (click)="onDeleteConfirm(album._id)"
+              href="#myModal"
+              data-toggle="modal"
+              class="bi bi-x album-button-delete"
+            ></i>
+            <i [routerLink]="['/artist', artist._id]" class="bi bi-eye"></i>
+            <i *ngIf="identity.role == 'ROLE_ADMIN'"
+              [routerLink]="['/edit-album', album._id]"
+              class="bi bi-pencil album-button-edit"
+            ></i>
+          </div>
+        </div>
+        <div id="myModal" class="modal fade">
+          <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+              <div class="modal-header flex-column">
+                <h4 class="modal-title w-100">¿Estas seguro?</h4>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-hidden="true"
+                >
+                  &times;
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>No habra vuelta atras</p>
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button
+                  (click)="onCancel()"
+                  class="btn btn-link"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button
+                  (click)="onDeleteAlbum(artist._id, album._id)"
+                  data-dismiss="modal"
+                  class="btn btn-outline-danger"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="album-image-mobile"
+          *ngIf="album.image && album.image != 'null'"
+        >
+          <img
+            src="{{url + 'get-image-album/'+ album.image}}"
+            [ngClass]="{album_image: album.image != 'null' && album.image , no: album.image == 'null' }"
+            alt="Album image"
+          />
+        </div>
+        <div class="album-image-mobile" *ngIf="album.image == 'null'">
+          <img
+            src="../../assets/img/connectdevelop-brands.svg"
+            [ngClass]="{album_image: album.image != 'null' && album.image , no: album.image == 'null' }"
+            alt="Album image"
+          />
+        </div>
+        <div class="info-album-total">
+          <div class="info-album-name-mobile">
+            <a [routerLink]="['/album', album._id]">{{album.title}}</a>
+          </div>
+          <div class="year-album">
+            <a>{{album.year}} &bull; Álbum </a>
+          </div>
+        </div>
+        <div class="options-mobile">
+          <i
+            class="bi bi-three-dots-vertical"
+            *ngIf="identity.role =='ROLE_ADMIN'"
+          ></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

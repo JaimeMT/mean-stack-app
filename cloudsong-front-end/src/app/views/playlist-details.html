@@ -1,0 +1,161 @@
+<div class="container-artist-details" *ngIf="identity._id === playlist.user">
+  <div id="mobile-style" class="artist-name-box">
+    <img
+      *ngIf="playlist.image == 'null'"
+      src="../../assets/img/connectdevelop-brands.svg"
+      alt="Image of artist"
+      class="album-image"
+    />
+    <img
+      *ngIf="playlist.image != 'null'"
+      src="{{url + 'get-image-playlist/' + playlist.image}}"
+      alt="Image of artist"
+      class="album-image"
+    />
+
+    <h1 class="text-image">{{playlist.title}}</h1>
+  </div>
+
+  <div class="test-box-shadow">
+    <div class="title-playlist" *ngIf="songsAdded.length > 0">
+      <h1>Canciones</h1>
+    </div>
+  
+    <div id="gallery-songs-playlist">
+        <table class="table-of-songs">
+          <thead class="mobile-view-table" *ngIf="songsAdded.length > 0">
+            <th>#</th>
+            <th>TÍTULO</th>
+            <th>ÁLBUM</th>
+            <th>
+              <i class="bi bi-clock"></i>
+            </th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr style="visibility: hidden">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr
+              *ngFor="let song of songsAdded"
+              id="{{song._id}}"
+              class="no-active"
+              style="cursor: pointer"
+            >
+              <td (click)="startPlayer(song)">
+                <img
+                  class="image-album-searched"
+                  src="{{url + 'get-image-album/'+ song.album.image}}"
+                />
+              </td>
+              <td (click)="startPlayer(song)">
+                <span class="name-song">{{song.name}}</span><br />
+                <span
+                  class="table-artist-name"
+                  [routerLink]="['/artist/'+song.album.artist._id]"
+                  >{{song.album.artist.name}}</span
+                >
+              </td>
+              <td (click)="startPlayer(song)">
+                <span class="mobile-style-album">{{song['album']['title']}}</span>
+              </td>
+              <td (click)="startPlayer(song)">
+                <span class="mobile-style-album">{{song.duration}} </span>
+              </td>
+              <td class="add-song-mobile">
+                <i (click)="onDeleteConfirmado(playlist._id, song._id)" class="bi bi-x"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+
+  <div class="search-options">
+    <div class="search-to-add-songs" id="search-to-add">
+      <div id="search-more" (click)="search()" *ngIf="closed == true">
+        <a class="close-search-navigator" >Buscar mas...</a>
+      </div>
+
+      <div class="search-option-2" id="close" *ngIf="closed == false">
+        <div class="input-group mb-2 mr-sm-2" id="show-search">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="bi bi-search"></i></div>
+          </div>
+          <input
+            (input)="getSongs($event)"
+            type="search"
+            class="form-control search-input"
+            id="inlineFormInputGroupUsername2"
+            placeholder="Busca canciones"
+            autofocus
+            name="filterPost"
+            [(ngModel)]="filterPost"
+            autocomplete="nope"
+            autocomplete="off"  
+          />
+          <div *ngIf="songsAdded.length > 0">
+            <span (click)="close()" class="close-search-navigator"
+              ><i class="bi bi-x-lg"></i
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="cancion-buscada" *ngIf="closed == false">
+    <table class="table-of-songs">
+      <tbody>
+        <tr style="visibility: hidden">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr
+          *ngFor="let songSearch of songsSearch | filter:filterPost"
+          id="{{songSearch.name}}"
+          class="no-active"
+          style="cursor: pointer"
+        >
+          <td (click)="rememberSong(songSearch)">
+            <img
+              class="image-album-searched"
+              src="{{url + 'get-image-album/'+ songSearch.album.image}}"
+            />
+          </td>
+          <td (click)="rememberSong(songSearch)">
+            <span class="name-song">{{songSearch.name}}</span><br />
+            <span
+              class="table-artist-name"
+              [routerLink]="['/artist/'+songSearch.album.artist._id]"
+              >{{songSearch.album.artist.name}}</span
+            >
+          </td>
+          <td (click)="rememberSong(songSearch)">
+            <span class="mobile-style-album">{{songSearch['album']['title']}}</span>
+          </td>
+          <td (click)="rememberSong(songSearch)">
+            <span class="mobile-style-album">{{songSearch.duration}} </span>
+          </td>
+          <td class="add-song-mobile">
+            <span
+              ><i
+                (click)="addSongtoPlaylist(songSearch._id)"
+                class="bi bi-plus add-song"
+              ></i
+            ></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div  *ngIf="identity._id !== playlist.user">
+  <h1 style="color: red;">ERROR</h1>
+</div>

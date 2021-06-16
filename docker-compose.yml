@@ -1,0 +1,21 @@
+version: '2'
+
+
+services:
+  angular: 
+    hostname: localhost
+    build: cloudsong-front-end 
+    ports:
+      - "8181:80" 
+
+  express: 
+    build: cloudsong-back-end
+    ports:
+      - "3000:3000"
+    links:
+      - database 
+
+  database: 
+    image: mongo 
+    ports:
+      - "27017:27017" 

@@ -1,0 +1,71 @@
+<div class="head-page" *ngIf="identity">
+    <h1 class="title-options">{{title}}</h1>
+   
+  </div>
+  
+  <div class="clearfix"></div>
+  <div class="cards-artists" *ngIf="identity">
+    <div class="card" *ngFor="let playlist of playlists">
+      <div class="overlayer">
+        <div *ngIf="identity">
+          <i
+          (click)="onDeleteConfirm(playlist._id)"
+            href="#myModal"
+            data-toggle="modal"
+            class="bi bi-x"
+          ></i>
+          <i [routerLink]="['/playlist', playlist._id]" class="bi bi-eye"></i>
+          <i class="bi bi-pencil" [routerLink]="['/edit-playlist', playlist._id]"></i>
+        </div>
+      </div>
+      <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+          <div class="modal-content">
+            <div class="modal-header flex-column">
+              <h4 class="modal-title w-100">¿Estas seguro?</h4>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>No habra vuelta atras</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button
+                (click)="onCancel()"
+                class="btn btn-link"
+                data-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button
+                (click)="onDeletePlaylist()"
+                data-dismiss="modal"
+                class="btn btn-outline-danger"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <img *ngIf="playlist.image == 'null'"
+      src="../../assets/img/connectdevelop-brands.svg"
+      class="artist_image"
+      />
+      <img *ngIf="playlist.image != 'null'"
+      src="{{url + 'get-image-playlist/' + playlist.image}}"
+      class="artist_image"
+      />
+
+      <a [routerLink]="['/playlist', playlist._id]" class="name-artist"
+        >{{playlist.title}}
+      </a>
+    </div>
+  </div>

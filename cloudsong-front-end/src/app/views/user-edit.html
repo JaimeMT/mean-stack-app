@@ -1,0 +1,53 @@
+<div class="col-lg-12 user-edit" *ngIf="identity">
+  <h1 class="title-options">{{title}}</h1>
+  <div *ngIf="alertMessage">{{ alertMessage }}</div>
+  <form
+    #userUpdateForm="ngForm"
+    (ngSubmit)="onSubmit()"
+    class="col-md-10"
+  >
+    <p>
+      <label for=""> Nombre: </label>
+      <input
+        type="text"
+        #name="ngModel"
+        name="name"
+        [(ngModel)]="user.name"
+        class="form-control"
+        autocomplete="nope"
+        autocomplete="off"
+        id="inlineFormInputGroupUsername3"
+      />
+      <span *ngIf="!name.valid && name.touched" style="color: red;">
+        El nombre es obligatorio
+      </span>
+    </p>
+    <p>
+      <label for=""> Apellidos: </label>
+      <input
+        type="text"
+        #surname="ngModel"
+        name="surname"
+        [(ngModel)]="user.surname"
+        class="form-control"
+        autocomplete="nope"
+        autocomplete="off"
+        id="inlineFormInputGroupUsername3"
+      />
+      <span *ngIf="!surname.valid && surname.touched" style="color: red;">
+        Los apellidos son obligatorios
+      </span>
+    </p>
+    <div *ngIf="user.image && user.image != 'null'">
+        <img class="image-user-edit" src="{{url + 'get-image-user/' +user.image}}" alt="User image">
+    </div>
+    <p>
+        <label for="">Foto de perfil: </label>
+        <input type="file" placeholder="Subir imagen de perfil" (change)="fileChangeEvent($event)">
+    </p>
+    <input type="submit" value="Actualizar" class="btn btn-primary" />
+    <a (click)="logout()" class="btn-logout logout"
+          ><i class="bi bi-box-arrow-left glyphicons" (click)="logout()"></i> Salir</a
+    >
+  </form>
+</div>

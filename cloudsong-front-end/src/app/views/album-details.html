@@ -1,0 +1,130 @@
+<div class="container-artist-details">
+  <div *ngIf="album" class="artist-name-box">
+   
+      <img *ngIf="album.image != 'null'"
+        src="{{url + 'get-image-album/'+ album.image}}"
+        alt="Image of artist"
+        class="album-image"
+      />
+
+      <img *ngIf="album.image == 'null'"
+        src="../../assets/img/connectdevelop-brands.svg"
+        alt="Image of artist"
+        class="album-image"
+      />
+
+    <h1 class="text-image">{{album['title']}}</h1>
+  </div>
+
+  <div class="test-box-shadow">
+    <div class="title-album">
+      <h1>
+        Canciones
+        <i
+          *ngIf="identity.role =='ROLE_ADMIN'"
+          class="bi bi-plus-circle"
+          [routerLink]="['/add-song', album._id]"
+        ></i>
+      </h1>
+    </div>
+    <div id="gallery-songs" *ngIf="songs.length > 0" >
+      <table class="table-of-songs">
+        <thead>
+          <th>#</th>
+          <th>TÍTULO</th>
+          <th>ÁLBUM</th>
+          <th>
+            <i class="bi bi-clock"></i>
+          </th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr style="visibility: hidden;">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let song of songs"  (click)="startPlayer(song)" id="{{song._id}}" class="no-active" style="cursor: pointer;">
+            <td>
+              <div class="parent">
+                <div class="number">{{song.number}}</div>
+                <div class="play">
+                  <i id="player-details" class="bi bi-play-fill"></i>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <span class="name-song" id="{{song._id}}">{{song.name}}</span><br>
+              <span class="table-artist-name" [routerLink]="['/artist', song.album.artist._id]">{{song.album.artist.name}}</span>
+            </td>
+            <td>
+              <span class="song-album-title">{{song.album.title}}</span>
+            </td>
+            <td>
+              <span>{{song.duration}} </span>
+            </td>
+            <td>
+              <div class="dropdown" *ngIf="identity.role == 'ROLE_ADMIN'">
+                <a><i class="bi bi-three-dots"></i></a>
+                <div class="dropdown-content">
+                  <i
+                  *ngIf="identity.role == 'ROLE_ADMIN'"
+                    class="bi bi-pencil"
+                    [routerLink]="['/edit-song', song._id]"
+                    style="font-style: normal"
+                    >Editar</i
+                  >
+                  <div *ngIf="identity.role == 'ROLE_ADMIN'" class="dropdown-divider"></div>
+                  <i
+                  *ngIf="identity.role == 'ROLE_ADMIN'"
+                    (click)="onDeleteConfirmado(song._id)"
+                    href="#myModal"
+                    data-toggle="modal"
+                    class="bi bi-x album-button-delete"
+                    >Eliminar</i
+                  >
+                  
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header flex-column">
+        <h4 class="modal-title w-100">¿Estas seguro?</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>No habra vuelta atras</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button (click)="onCancel()" class="btn btn-link" data-dismiss="modal">
+          Cancelar
+        </button>
+        <button
+          (click)="onDeleteSong()"
+          data-dismiss="modal"
+          class="btn btn-outline-danger"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

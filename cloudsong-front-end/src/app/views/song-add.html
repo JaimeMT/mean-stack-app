@@ -1,0 +1,79 @@
+<div *ngIf="identity && identity.role=='ROLE_ADMIN'" class="song-add">
+  <h1 class="text-white" style="text-align: center">Añadir cancion</h1>
+  <div *ngIf="alertMessage">{{ alertMessage }}</div>
+  <form #formAddSong="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="mb-3">
+        <label class="form-label">Número</label>
+        <input
+          type="number"
+          #number="ngModel"
+          name="number"
+          [(ngModel)]="song.number"
+          class="form-control"
+          aria-describedby="emailHelp"
+          autocomplete="nope"
+          autocomplete="off"
+          maxlength="2"
+          id="inlineFormInputGroupUsername3"
+          required
+        />
+        <span *ngIf="!number.valid && number.touched" style="color: red;">
+          El numero es obligatorio
+        </span>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Titulo</label>
+        <input
+          type="text"
+          #name="ngModel"
+          name="name"
+          [(ngModel)]="song.name"
+          class="form-control"
+          aria-describedby="emailHelp"
+          autocomplete="nope"
+          autocomplete="off"
+          id="inlineFormInputGroupUsername3"
+          required
+        />
+        <span *ngIf="!name.valid && name.touched" style="color: red;">
+          El titulo es obligatorio
+        </span>
+      </div>
+
+      <div *ngIf="is_edit" class="mb-3">
+        <div *ngIf="song.file && song.file != 'null'">
+          <audio controls>
+            <source
+              src="{{ url + 'get-file-song/' + song.file}}"
+              type="audio/mpeg"
+            />
+            El navegador no soporta la reproduccion de audio
+          </audio>
+        </div>
+        <label class="form-label">Audio de la cancion</label>
+        <input
+          id="file"
+          class="form-control-file file-options"
+          type="file"
+          (change)="fileChangeEvent($event)"
+          autocomplete="nope"
+          autocomplete="off"
+          id="inlineFormInputGroupUsername3"
+          required
+        />
+        <pre (change)="change($event)" id="infos"></pre>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary custom-btn"
+        [disabled]="!formAddSong.form.valid"
+      >
+        {{title}}
+      </button>
+    </div>
+  </form>
+</div>
+<div *ngIf="!identity || identity.role!=='ROLE_ADMIN'">
+  <h1 style="color: red">Error not found</h1>
+</div>

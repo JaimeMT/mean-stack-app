@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CloudSong</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <app-root></app-root>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      jQuery(document).ready(function ($) {
+        $("input[type=range]").mousemove(function (e) {
+          var val =
+            ($(this).val() - $(this).attr("min")) /
+            ($(this).attr("max") - $(this).attr("min"));
+          var percent = val * 100;
+          $(this).css(
+            "background-image",
+            "-webkit-gradient(linear, left top, right top, " +
+              "color-stop(" +
+              percent +
+              "%, #ffffff), " +
+              "color-stop(" +
+              percent +
+              "%, #000000)" +
+              ")"
+          );
+
+          $(this).css(
+            "background-image",
+            "-moz-linear-gradient(left center, #ffffff 0%, #000000 " +
+              percent +
+              "%, #F5D0CC " +
+              percent +
+              "%, #F5D0CC 100%)"
+          );
+        });
+
+        $("#player").on("ended", function () {
+          $("#trigger").trigger("click");
+        });
+        document
+          .getElementById("player")
+          .addEventListener("timeupdate", function () {
+            var val =
+              ($("#seek-slider").val() - $("#seek-slider").attr("min")) /
+              ($("#seek-slider").attr("max") - $("#seek-slider").attr("min"));
+            var percent = val * 100;
+            console.log("hola");
+            $("#seek-slider").css(
+              "background-image",
+              "-webkit-gradient(linear, left top, right top, " +
+                "color-stop(" +
+                percent +
+                "%, #ffffff), " +
+                "color-stop(" +
+                percent +
+                "%, #000000)" +
+                ")"
+            );
+
+            $("#seek-slider").css(
+              "background-image",
+              "-moz-linear-gradient(left center, #ffffff 0%, #000000 " +
+                percent +
+                "%, #F5D0CC " +
+                percent +
+                "%, #F5D0CC 100%)"
+            );
+          });
+      });
+
+      jQuery(document).ready(function ($) {
+        tab = $(".tabs h3 a");
+
+        tab.on("click", function (event) {
+          event.preventDefault();
+          tab.removeClass("active");
+          $(this).addClass("active");
+
+          tab_content = $(this).attr("");
+          $('div[id$="tab-content"]').removeClass("active");
+          $(tab_content).addClass("active");
+        });
+      });
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

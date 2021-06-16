@@ -1,0 +1,92 @@
+<div class="wrapper-add-artist">
+  <div
+    class="col-12 form-add-artist"
+    *ngIf="identity && identity.role=='ROLE_ADMIN'"
+  >
+    <h1 class="title-options">Editar o Añadir Artista</h1>
+    <div *ngIf="alertMessage">{{ alertMessage }}</div>
+    <form
+      #formArtist="ngForm"
+      (ngSubmit)="onSubmit()"
+      class="d-flex justify-content-center align-items-center container"
+    >
+      <div class="form-group">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input
+            type="text"
+            #name="ngModel"
+            name="name"
+            [(ngModel)]="artist.name"
+            class="form-control"
+            aria-describedby="emailHelp"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+
+          />
+          <span *ngIf="!name.valid && name.touched" style="color: red;">
+            El nombre es obligatorio
+          </span>
+        </div>
+        <div class="mb-3">
+          <label class="form-label"
+            >Descripcion del artista</label
+          >
+          <textarea
+            class="form-control"
+            #description="ngModel"
+            name="description"
+            [(ngModel)]="artist.description"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+
+          ></textarea>
+          <span *ngIf="!description.valid && description.touched" style="color: red;"> 
+            La description es obligatoria
+          </span>
+        </div>
+
+        <div *ngIf="is_edit" class="mb-3">
+          <div *ngIf="artist.image && artist.image != 'null'">
+            <img
+              class="artist_image_for_edit"
+              src="{{url + 'get-image-artist/' + artist.image}}"
+              alt="Imagen del artista"
+            />
+          </div>
+          <label class="form-label"
+            >Foto del artista</label
+          >
+          <input
+            class="form-control-file file-options"
+            type="file"
+            #image="ngModel"
+            name="image"
+            [(ngModel)]="artist.image"
+            (change)="fileChangeEvent($event)"
+            autocomplete="nope"
+            autocomplete="off"
+            id="inlineFormInputGroupUsername3"
+
+          />
+          <span *ngIf="!image.valid && image.touched" style="color: red;">
+            La imagen es obligatoria
+          </span>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!formArtist.form.valid"
+        >
+         Añadir artista
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="!identity || identity.role!=='ROLE_ADMIN'">
+  <h1 style="color: red">Error not found</h1>
+</div>

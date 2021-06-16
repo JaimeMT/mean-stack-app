@@ -1,0 +1,76 @@
+<div class="head-page" *ngIf="identity">
+  <h1 class="title-options">{{title}}</h1>
+  <a
+    id="role-adming-add"
+    class="btn btn-primary custom-btn"
+    [routerLink]="['/add-artist']"
+    *ngIf="identity && identity.role=='ROLE_ADMIN'"
+  >
+    Añadir artistas
+  </a>
+
+  
+</div>
+<div class="cards-artists" *ngIf="identity">
+  <div class="card" *ngFor="let artist of artists" >
+    <div class="overlayer">
+      <div >
+        <i *ngIf="identity.role == 'ROLE_ADMIN'"
+          (click)="onDeleteConfirm(artist._id)"
+          href="#myModal"
+          data-toggle="modal"
+          class="bi bi-x"
+        ></i>
+        <i
+        [routerLink]="['/artist', artist._id]"
+          class="bi bi-eye"
+        ></i>
+        <i *ngIf="identity.role == 'ROLE_ADMIN'" [routerLink]="['/edit-artist', artist._id]" class="bi bi-pencil"></i>
+      </div>
+    </div>
+    <div id="myModal" class="modal fade">
+      <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+          <div class="modal-header flex-column">
+            <h4 class="modal-title w-100">¿Estas seguro?</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>No habra vuelta atras</p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button
+              (click)="onCancel()"
+              class="btn btn-link"
+              data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              (click)="onDeleteArtist(artist._id)"
+              data-dismiss="modal"
+              class="btn btn-outline-danger"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img
+      src="{{url + 'get-image-artist/'+ artist.image}}"
+      [ngClass]="{artist_image: artist.image != 'null' && artist.image , no: artist.image == 'null' }"
+      alt=""
+    />
+    <a [routerLink]="['/artist', artist._id]" class="name-artist"
+      >{{artist.name}}
+    </a>
+  </div>
+</div>
